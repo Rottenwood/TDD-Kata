@@ -41,20 +41,8 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculateUnknownParameters()
     {
-        $random = rand(1, 10);
+        $result = $this->calculator->calculate(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-        $parameters = '';
-        for ($i = 1; $i <= $random; $i++) {
-            $parameters .= $i;
-            $parameters .= $i == $random ? '' : ', ';
-        }
-
-        var_dump($parameters);
-
-
-//        $result = $this->calculator->calculate(1, 1.5, 10, 20, 5, 3, 3, 2, 1);
-//        $result = eval('$this->calculator->calculate(' . $parameters . ')');
-
-        $this->assertEquals(2.5, $result);
+        $this->assertEquals(45, $result);
     }
 }
