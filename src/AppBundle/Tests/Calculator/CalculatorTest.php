@@ -1,48 +1,76 @@
 <?php
 /**
  * Author: Rottenwood
- * Date Created: 25.02.15 21:24
+ * Date Created: 04.03.15 20:27
  */
 
 namespace AppBundle\Tests\Calculator;
 
-use AppBundle\Calculator\Calculator;
 
 class CalculatorTest extends \PHPUnit_Framework_TestCase
 {
-
+    /**
+     * @var Calculator
+     */
     private $calculator;
 
-    function __construct()
+    public function setUp()
     {
-        $this->calculator = new Calculator();
+        $this->calculator = new Calculator;
     }
 
-    public function testCalculateNull()
+    /**
+     * @test
+     */
+    public function add_EmptyString_ReturnsZero()
     {
-        $result = $this->calculator->calculate();
-
-        $this->assertEquals(0, $result);
+        assertThat($this->calculator->add(''), is(identicalTo(0)));
     }
 
-    public function testCalculateOneParameter()
+    /**
+     * @test
+     */
+    public function add_SingleNumber_ReturnsThatNumber()
     {
-        $result = $this->calculator->calculate(1);
-
-        $this->assertEquals(1, $result);
+        assertThat($this->calculator->add('1'), is(equalTo(1)));
+        assertThat($this->calculator->add('2'), is(equalTo(2)));
     }
 
-    public function testCalculateTwoParameters()
+    /**
+     * @test
+     */
+    public function add_TwoNumbers_ReturnsSummOfAllNumbers()
     {
-        $result = $this->calculator->calculate(1, 1.5);
-
-        $this->assertEquals(2.5, $result);
+        assertThat($this->calculator->add('1,2'), is(equalTo(3)));
     }
 
-    public function testCalculateUnknownParameters()
+    /**
+     * @test
+     */
+    public function add_ThreeNumbers_ReturnSummOfNumbers()
     {
-        $result = $this->calculator->calculate(1, 2, 3, 4, 5, 6, 7, 8, 9);
+        assertThat($this->calculator->add('1,2,3'), is(equalTo(6)));
+    }
 
-        $this->assertEquals(45, $result);
+    /**
+     * @test
+     */
+    public function add_NewLinesInsteadOfCommas_ReturnSummOfNumbers()
+    {
+        assertThat($this->calculator->add('1\n2,3'), is(equalTo(6)));
+    }
+}
+
+class Calculator
+{
+    public function add($numbersString)
+    {
+        $numbers = preg_split('/(,|\\\n)/', $numbersString);
+
+        if (count($numbers) > 1) {
+            return array_sum($numbers);
+        } else {
+            return (int)$numbers[0];
+        }
     }
 }
