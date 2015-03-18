@@ -66,4 +66,14 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         assertThat($this->calculator->add('//;\n1;2'), is(equalTo(3)));
     }
+
+    /**
+     * @test
+     * @expectedException        \InvalidArgumentException
+     * @expectedExceptionMessage Negatives not allowed
+     */
+    public function add_NegativeNumbersNotAllowed_ThrowException()
+    {
+        $this->calculator->add('-10');
+    }
 }
