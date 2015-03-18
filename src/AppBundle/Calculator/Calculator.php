@@ -13,22 +13,18 @@ class Calculator
 
         $delimiter = '(,|\\\n)';
 
-        if (preg_match('/' . $delimiter . '/', $numbersString)) {
-            if (preg_match('/\/\/.?\\\n/', $numbersString)) {
-                $delimiter = $numbersString[2];
-                $numbersString = substr($numbersString, 5);
-            }
-
-            $numbers = preg_split('/' . $delimiter . '/', $numbersString);
-
-            if (count($numbers) > 1) {
-                return array_sum($numbers);
-            } else {
-                return (int)$numbers[0];
-            }
-        } else {
+        if (!(preg_match('/' . $delimiter . '/', $numbersString))) {
             return (int)$numbersString;
         }
+
+        if (preg_match('/\/\/.?\\\n/', $numbersString)) {
+            $delimiter = $numbersString[2];
+            $numbersString = substr($numbersString, 5);
+        }
+
+        $numbers = preg_split('/' . $delimiter . '/', $numbersString);
+
+        return array_sum($numbers);
     }
 }
 
