@@ -84,4 +84,12 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         assertThat($this->calculator->add('1, 1002'), is(equalTo(1)));
     }
+
+    /**
+     * @test
+     */
+    public function add_DelimiterCanBeAnyLength_ReturnSummOfNumbers()
+    {
+        assertThat($this->calculator->add('//[***]\n1***2***3'), is(equalTo(6)));
+    }
 }

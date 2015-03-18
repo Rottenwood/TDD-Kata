@@ -15,12 +15,15 @@ class Calculator
         if (!(preg_match('/' . $delimiter . '/', $numbersString))) {
             $numbers = [(int)$numbersString];
         } else {
-            if (preg_match('/\/\/.?\\\n/', $numbersString)) {
-                $delimiter = $numbersString[2];
-                $numbersString = substr($numbersString, 5);
+            $isCustomDelimiter = preg_match('/^\\/\\/\\[(.*)\\]\\\n(.*)$/', $numbersString, $inputParameters);
+
+            if ($isCustomDelimiter) {
+                $delimiter = $inputParameters[1];
+                $numbersString = $inputParameters[2];
             }
 
-            $numbers = preg_split('/' . $delimiter . '/', $numbersString);
+            $numbers = preg_split('/(' . $delimiter . ')/', '1***2***3');
+
         }
 
         $negativeNumbers = [];
@@ -41,3 +44,6 @@ class Calculator
         return array_sum($numbers);
     }
 }
+
+$calc = new Calculator();
+$calc->add('//[***]\n1***2***3');
