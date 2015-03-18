@@ -4,8 +4,7 @@
  * Date Created: 04.03.15 20:27
  */
 
-namespace AppBundle\Tests\Calculator;
-
+namespace AppBundle\Calculator;
 
 class CalculatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -59,18 +58,12 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         assertThat($this->calculator->add('1\n2,3'), is(equalTo(6)));
     }
-}
 
-class Calculator
-{
-    public function add($numbersString)
+    /**
+     * @test
+     */
+    public function add_ChangeDelimeterOption_ReturnSummOfNumbers()
     {
-        $numbers = preg_split('/(,|\\\n)/', $numbersString);
-
-        if (count($numbers) > 1) {
-            return array_sum($numbers);
-        } else {
-            return (int)$numbers[0];
-        }
+        assertThat($this->calculator->add('//;\n1;2'), is(equalTo(3)));
     }
 }
