@@ -70,10 +70,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      * @expectedException        \InvalidArgumentException
-     * @expectedExceptionMessage Negatives not allowed
+     * @expectedExceptionMessage Negatives not allowed: -1,-2
      */
-    public function add_NegativeNumbersNotAllowed_ThrowException()
+    public function add_NegativeNumbersNotAllowed_ThrowExceptionListInvalidNumbers()
     {
-        $this->calculator->add('-10');
+        $this->calculator->add('-1, -2');
     }
 }

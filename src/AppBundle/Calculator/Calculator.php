@@ -34,14 +34,22 @@ class Calculator
      */
     private function checkNegative($numbers)
     {
+        $negativeNumbers = [];
+
         if (is_array($numbers)) {
             foreach ($numbers as $number) {
+
                 if ($number < 0) {
-                    throw new \InvalidArgumentException('Negatives not allowed');
+                    $negativeNumbers[] = trim($number);
                 }
             }
         } elseif ($numbers < 0) {
-            throw new \InvalidArgumentException('Negatives not allowed');
+            $negativeNumbers[] = trim($numbers);
         }
+
+        if (count($negativeNumbers)) {
+            throw new \InvalidArgumentException('Negatives not allowed: ' . implode(',', $negativeNumbers));
+        }
+
     }
 }
