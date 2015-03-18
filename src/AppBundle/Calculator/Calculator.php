@@ -13,8 +13,7 @@ class Calculator
         $delimiter = '(,|\\\n)';
 
         if (!(preg_match('/' . $delimiter . '/', $numbersString))) {
-            $result = (int)$numbersString;
-            $this->checkNegative($result);
+            $numbers = [(int)$numbersString];
         } else {
             if (preg_match('/\/\/.?\\\n/', $numbersString)) {
                 $delimiter = $numbersString[2];
@@ -22,34 +21,23 @@ class Calculator
             }
 
             $numbers = preg_split('/' . $delimiter . '/', $numbersString);
-            $this->checkNegative($numbers);
-            $result = array_sum($numbers);
         }
 
-        return $result;
-    }
-
-    /**
-     * @param array|int $numbers
-     */
-    private function checkNegative($numbers)
-    {
         $negativeNumbers = [];
+        foreach ($numbers as &$number) {
+            $number = trim($number);
 
-        if (is_array($numbers)) {
-            foreach ($numbers as $number) {
-
-                if ($number < 0) {
-                    $negativeNumbers[] = trim($number);
-                }
+            if ($number > 1000) {
+                $number = 0;
+            } elseif ($number < 0) {
+                $negativeNumbers[] = $number;
             }
-        } elseif ($numbers < 0) {
-            $negativeNumbers[] = trim($numbers);
         }
 
         if (count($negativeNumbers)) {
             throw new \InvalidArgumentException('Negatives not allowed: ' . implode(',', $negativeNumbers));
         }
 
+        return array_sum($numbers);
     }
 }

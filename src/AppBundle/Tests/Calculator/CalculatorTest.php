@@ -76,4 +76,12 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->calculator->add('-1, -2');
     }
+    
+    /**
+     * @test
+     */
+    public function add_NumbersBiggerThan100MustBeIgnored_ReturnSummOfNumbers()
+    {
+        assertThat($this->calculator->add('1, 1002'), is(equalTo(1)));
+    }
 }
